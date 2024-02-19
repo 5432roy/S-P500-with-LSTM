@@ -1,1 +1,1 @@
-# S-P500-with-LSTM
+# SP500-with-LSTM
