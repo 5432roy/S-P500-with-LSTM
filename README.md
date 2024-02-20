@@ -10,7 +10,7 @@ This repository hosts a project focused on developing a Long Short-Term Memory (
 ### Training
 Using the data for `S&P 500` from the past 5 years to train
 
-- so far we trace back 10 days for the model
+- Right now the model traced back 10 days as input
 ### Testing
 Using the data for `Nasdaq 100` from the past 5 years for testing
 
