@@ -6,6 +6,9 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.preprocessing import MinMaxScaler
 import matplotlib.pyplot as plt
 
+# Set device to cuda
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Assuming 'data/S&P500_5_years.csv' is accessible and in the correct format
 # Load data
 df = pd.read_csv('data/S&P500_5_years.csv', usecols=['Close/Last', 'Open', 'High', 'Low'])
@@ -15,25 +18,22 @@ scaler = MinMaxScaler(feature_range=(-1, 1))
 scaled_data = scaler.fit_transform(df)
 
 # Function to create sequences
-def create_sequences(data, seq_length):
+def create_sequences(data, look_back_days):
     xs, ys = [], []
-    for i in range(len(data)-seq_length-1):
-        x = data[i:(i+seq_length)]
-        y = data[i+seq_length][0]  # Predict next close value
+    for i in range(len(data)-look_back_days-1):
+        x = data[i:(i+look_back_days)]
+        y = data[i+look_back_days][0]  # Predict next close value
         xs.append(x)
         ys.append(y)
     return np.array(xs), np.array(ys)
 
-seq_length = 10  # Number of time steps to look back
-X, y = create_sequences(scaled_data, seq_length)
+look_back_days = 10  # Number of time steps to look back
+X, y = create_sequences(scaled_data, look_back_days)
 X_train, y_train = torch.FloatTensor(X), torch.FloatTensor(y)
 
 # DataLoader
 train_data = TensorDataset(X_train, y_train)
 train_loader = DataLoader(train_data, shuffle=True, batch_size=1, drop_last=True)
-
-# Set device to cuda
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class StockLSTM(nn.Module):
     def __init__(self, input_size=40, hidden_layer_size=100, output_size=1):
