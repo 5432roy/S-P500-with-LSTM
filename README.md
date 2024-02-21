@@ -15,4 +15,4 @@ Using the data for `S&P 500` from the past 5 years to train
 Using the data for `Nasdaq 100` from the past 5 years for testing
 
 ## Sources
-- 
+- [S&P 500 (SPX) Historical Data](https://www.nasdaq.com/market-activity/index/spx/historical?page=1&rows_per_page=10&timeline=y5)
